@@ -1,0 +1,53 @@
+public class Main {
+    public static void main(String[] args) {
+        String table = "car";
+        String model = "V-60";
+        String country = "Germany";
+        String city = "Berlin";
+        String year = null;
+        String active = "true";
+
+        String query = buildSelectQuery(table, model, country, city, year, active);
+        System.out.println(query);
+    }
+
+    public static String buildSelectQuery(String table, String model, String country, String city, String year, String active) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("SELECT * FROM ").append(table);
+
+        boolean hasConditions = false;
+        stringBuilder.append(" WHERE ");
+
+        if (model != null) {
+            stringBuilder.append("model = '").append(model).append("' AND ");
+            hasConditions = true;
+        }
+        if (country != null) {
+            stringBuilder.append("country = '").append(country).append("' AND ");
+            hasConditions = true;
+        }
+        if (city != null) {
+            stringBuilder.append("city = '").append(city).append("' AND ");
+            hasConditions = true;
+        }
+        if (year != null) {
+            stringBuilder.append("year = '").append(year).append("' AND ");
+            hasConditions = true;
+        }
+        if (active != null) {
+            stringBuilder.append("active = '").append(active).append("'");
+            hasConditions = true;
+        }
+
+        // Убираем лишний " AND " в конце, если он есть
+        String query = stringBuilder.toString();
+        if (hasConditions) {
+            query = query.replaceAll(" AND $", "");
+        } else {
+            // Если нет условий, удаляем WHERE
+            query = query.replace(" WHERE ", "");
+        }
+
+        return query;
+    }
+}
